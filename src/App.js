@@ -16,6 +16,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      {/* Creo le Routes per passare da una pagina all'altra */}
       <Routes>
         <Route path="/" element={<UsersPage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />

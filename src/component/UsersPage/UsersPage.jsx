@@ -1,11 +1,17 @@
 import React from "react";
-import { Col, Image, Row } from "react-bootstrap";
-import { Container } from "react-bootstrap";
-import FemaleImg from "../../assets/img/female.png";
-import MaleImg from "../../assets/img/male.png";
+
+// Importo gli stili di react-bootstrap
+import { Col, Image, Row, Container } from "react-bootstrap";
+
+// Importo il Link dal router-dom, su App.js dichiarato le Routes
 import { Link } from "react-router-dom";
 
+// Importo le immagini per i 4 utenti
+import FemaleImg from "../../assets/img/female.png";
+import MaleImg from "../../assets/img/male.png";
+
 export default function UsersPage() {
+  // ID univoci dei nostri "account"
   const usersID = {
     jessica: "674f52c122ca0300154884b1",
     carmine: "6752096f7246ad0015c51593",
@@ -17,6 +23,7 @@ export default function UsersPage() {
     <Container className="mt-5 pt-2">
       <Row className="text-center mt-5 g-5 vh-75">
         <Col xs={12} md={6}>
+          {/* Viene passato l'ID associato a Jessica */}
           <Link to={`/profile/${usersID.jessica}`}>
             <Image src={FemaleImg} roundedCircle />
           </Link>
@@ -24,6 +31,7 @@ export default function UsersPage() {
         </Col>
 
         <Col xs={12} md={6}>
+          {/* Viene passato l'ID associato ad Andrei */}
           <Link to={`/profile/${usersID.andrei}`}>
             <Image src={MaleImg} roundedCircle />
           </Link>
@@ -31,6 +39,7 @@ export default function UsersPage() {
         </Col>
 
         <Col xs={12} md={6}>
+          {/* Viene passato l'ID associato a Gabriele */}
           <Link to={`/profile/${usersID.gabriele}`}>
             <Image src={MaleImg} roundedCircle />
           </Link>
@@ -38,6 +47,7 @@ export default function UsersPage() {
         </Col>
 
         <Col xs={12} md={6}>
+          {/* Viene passato l'ID associato a Carmine */}
           <Link to={`/profile/${usersID.carmine}`}>
             <Image src={MaleImg} roundedCircle />
           </Link>

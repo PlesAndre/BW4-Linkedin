@@ -1,4 +1,6 @@
 import React from "react";
+
+// Importa gli stili di react-bootstrap
 import {
   Navbar,
   Nav,
@@ -7,6 +9,8 @@ import {
   FormControl,
   Container,
 } from "react-bootstrap";
+
+// Importo lo stile esterno CSS
 import "./Navbar.css";
 
 export default function NavBar() {

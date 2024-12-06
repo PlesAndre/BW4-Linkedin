@@ -1,28 +1,24 @@
-// Importo gli hooks di react
 import React, { useEffect, useState } from "react";
 
 // Importo i stili di react-bootstrap
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import ExperienceDiv from "./ExperienceDiv";
 
-// Importo il componente utilizzato
-import Experience from "./Experience";
+const Body = ({ id }) => {
 
-const ExperiencesContainer = ({ id }) => {
-  // useState utilizzato per prendere le esperienze dall'endpoint /id/experiences, id = utente specifico dato dalla UsersPage
-  const [experiences, setExperiences] = useState([]);
+    // useState utilizzato per passargli la "get" delle esperienze e poi trasformato grazie a map mostrato in pagina dal componente ExperienceDiv
+  const [experiences, setExperience] = useState([]); 
 
-  // useState utilizzati per mostrare il Loading in pagina mentre aspetta che la fetch concluda
+  // useState utilizzato per mostrare in pagina il Loading al caricamento della fetch delle esperienze 
   const [loading, setLoading] = useState(true);
 
-  // useState utilizzato per ricaricare la pagina ogni volta che la "GET" viene modificata
-  const [reload, setReload] = useState(false);
-
-  // Funzioni utilizzate per chiudere/aprire la finestra modale
+  // Funzioni usate dalla finestra modale 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // useState utilizzato per passargli i valori iniziali all POST con la struttura che vuole il JSON
+
+  // useState utilizzato per prendere il valore attuale dalla modale e passarglieli con la struttura definita per la POST
   const [inputs, setInputs] = useState({
     role: "",
     company: "",
@@ -32,10 +28,7 @@ const ExperiencesContainer = ({ id }) => {
     area: "",
   });
 
-  // ENDPOINT delle esperienze
-  const API_EXP_URL = `https://striveschool-api.herokuapp.com/api/profile/${id}/experiences`;
-
-  // Array di oggetti definito per validare l'id e il token quando è selezionato un profilo specifico
+  // Array di oggetti per validare il Token e l'ID, controllando se al momento della POST sia uguale al profilo selezionato
   const users = [
     {
       name: "Jessica",
@@ -63,73 +56,89 @@ const ExperiencesContainer = ({ id }) => {
     },
   ];
 
-  // Ciclo for per la validazione dove itera all'interno dell'array
+  // Ciclo for che itera all'interno di "users"
   let apiToken = "";
   for (let i = 0; i < users.length; i++) {
     if (id === users[i].id) {
       apiToken = users[i].token;
+      console.log(apiToken);
     }
   }
 
-  // READ, per mostrare in pagina le esperienze dell'utente specifico
-  const getExperiences = async () => {
+  // READ, per prendere le esperienze dell'utente selezionato
+  const getExperience = async () => {
     try {
-      const response = await fetch(API_EXP_URL, {
-        headers: {
-          Authorization: apiToken,
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Errore nel recuperare le esperienze");
-      }
+      const response = await fetch(
+        ` https://striveschool-api.herokuapp.com/api/profile/${id}/experiences`,
+        {
+          headers: {
+            Authorization: apiToken,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
-      setExperiences(data);
+
+      // la funzione setExperience gli passa i dati a experiences per mostrare le esperienze in pagina
+      setExperience(data);
     } catch (error) {
-      console.error(error);
+      console.error("Errore ", error);
     } finally {
       setLoading(false);
-      setReload(false);
     }
   };
 
-  // CREATE, per passargli le esperienze al JSON dell'utente specifico
-  const postExperience = async () => {
-    try {
-      const response = await fetch(API_EXP_URL, {
+
+  useEffect(() => {
+    getExperience(); // Chiamata alla funzione per recuperare gli utenti
+  }, []);
+
+  // Blocco if per il caricamento delle esperienze 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // CREATE, l'utente può aggiungere le esperienze al proprio profilo
+  function postExperience() {
+    console.log(id);
+    fetch(
+      `https://striveschool-api.herokuapp.com/api/profile/${id}/experiences`,
+      {
         method: "POST",
         headers: {
           Authorization: apiToken,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(inputs), // "inputs" gli viene passato perchè contiente la struttura che il JSON accetta
-      });
-      if (!response.ok) {
-        throw new Error("Errore nell'aggiunta dell'esperienza");
+        body: JSON.stringify(inputs), // il JSON accetta la struttura definita nello useState in cima
       }
-      setReload(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Errore nel caricare le esperienze");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Dati mandati correttamente", data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
-  // useEffect caricare la "GET" ogni volta che il valore di [reload] cambia
-  useEffect(() => {
-    getExperiences();
-  }, [reload]);
-
-  // Funzione handleChange che prendere i valori attuali della finestra modale
-  const handleChange = (e) => {
+  // Funzione che prende il valore dal modale e carica le esperienze vecchie senza sovrascriverle
+  function handleChange(e) {
     const { name, value } = e.target;
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [name]: value,
+    }));
+  }
 
-    // aggiunge nuove "EXP" senza sovrascivere quelle vecchie
-    setInputs((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // Funzione handleSubmit che esegue la POST, chiiude la finestra modale e resetta i campi di input
-  const handleSubmit = async (e) => {
+  // Funzione che esegue la POST, chiude la finestra modale e resetta tutti i valori del "form"
+  function handleSubmit(e) {
     e.preventDefault();
-    await postExperience();
+    postExperience();
     setShow(false);
     setInputs({
       role: "",
@@ -139,9 +148,7 @@ const ExperiencesContainer = ({ id }) => {
       description: "",
       area: "",
     });
-  };
-
-  if (loading) return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -214,16 +221,16 @@ const ExperiencesContainer = ({ id }) => {
       <Container className="p-0">
         <Row>
           <Col>
-            <Col className="d-flex justify-content-between align-items-center">
-              <h5 className="m-3">Esperienze Lavorative</h5>
-              <Button className="mx-4" type="button" onClick={handleShow}>
-                <i className="bi bi-plus"></i>
-              </Button>
-            </Col>
+            <h5 className="mx-2 my-3 mt-5">Esperienze Lavorative</h5>
+            <Button
+              type="button"
+              className="add-experience"
+              onClick={handleShow}
+            >
+              +
+            </Button>
             {experiences.map((experience) => (
-              <Experience
-                setReload={setReload}
-                apiToken={apiToken}
+              <ExperienceDiv
                 id={id}
                 key={experience._id}
                 experience={experience}
@@ -235,5 +242,4 @@ const ExperiencesContainer = ({ id }) => {
     </>
   );
 };
-
-export default ExperiencesContainer;
+export default Body;

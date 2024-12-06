@@ -1,8 +1,12 @@
 import React from "react";
 
-//import
+//Importo lo stile CSS
 import "./Footer.css";
+
+// Importo gli stili di react-bootstrap
 import { Container, Card } from "react-bootstrap";
+
+// Importo il Link dal router-dom, su App.js dichiarato le Routes
 import { Link } from "react-router-dom";
 
 const Footer = () => {

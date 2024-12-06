@@ -20,7 +20,7 @@ export default function ProfilePage() {
   // Prende l'id dal componente UsersPage
   const params = useParams();
 
-  // lo state profileDetails prende il valore dalla get
+  // lo state profileDetails prende il valore dalla get dei profili
   const [profileDetails, setProfileDetails] = useState([]);
 
   useEffect(() => {
@@ -43,6 +43,7 @@ export default function ProfilePage() {
       });
   }, [params]);
 
+  
   return (
     <>
       <Container className="mt-5 pt-2">

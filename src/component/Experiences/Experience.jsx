@@ -1,12 +1,19 @@
+// Importo gli hooks di react
 import React, { useEffect, useState } from "react";
+
+// Importo gli stili di react-bootstrap
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
+
+// Importo lo stile CSS
 import "./Experience.css";
 
 export default function Experience({ experience, id, apiToken, setReload }) {
+  // Funzioni utilizzate per la finestra modale
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // ENDPOINT per la PUT (update)
   const API_EXP_PUT_URL = `https://striveschool-api.herokuapp.com/api/profile/${id}/experiences/`;
 
   const [inputs, setInputs] = useState({
@@ -17,6 +24,10 @@ export default function Experience({ experience, id, apiToken, setReload }) {
     description: "",
     area: "",
   });
+
+  // Verifica se l'oggetto `experience` è definito (non nullo o non undefined).
+  // Se `experience` esiste, aggiorna lo stato `inputs` con le proprietà rilevanti di `experience`.
+  // - Utilizza `.slice(0, 10)` per limitare le date (startDate e endDate) al formato "YYYY-MM-DD".
   useEffect(() => {
     if (experience) {
       setInputs({
@@ -35,6 +46,7 @@ export default function Experience({ experience, id, apiToken, setReload }) {
     setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Esegue la PUT dell'esperienza specifica
   const modifyExp = async (e) => {
     e.preventDefault();
 
@@ -60,6 +72,7 @@ export default function Experience({ experience, id, apiToken, setReload }) {
     }
   };
 
+  // Validazione per la cancellazione dell'esperienza
   const handleDelete = (selected) => {
     const confirmDelete = window.confirm(
       "Sei sicuro di voler eliminare questa esperienza?"
@@ -72,6 +85,7 @@ export default function Experience({ experience, id, apiToken, setReload }) {
     }
   };
 
+  // DELETE creata per eliminare le esperienze specifiche
   const deleteExp = async (selectedId) => {
     try {
       const response = await fetch(API_EXP_PUT_URL + selectedId, {
@@ -100,7 +114,7 @@ export default function Experience({ experience, id, apiToken, setReload }) {
       year: "numeric",
       month: "short",
       day: "2-digit",
-    }); // Formatta solo anno e mese
+    }); // Formatta anno, mese e giorno
   };
 
   return (
@@ -175,7 +189,7 @@ export default function Experience({ experience, id, apiToken, setReload }) {
           <Col className="mt-2">
             <h4>{experience.company}</h4>
             <p>
-              {formatDate(experience.startDate)} -{" "}
+              {formatDate(experience.startDate)} -
               {formatDate(experience.endDate)}
             </p>
             <p>{experience.area}</p>

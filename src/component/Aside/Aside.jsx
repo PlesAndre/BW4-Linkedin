@@ -1,11 +1,17 @@
+// Importo gli hooks di react 
 import React, { useState, useEffect } from "react";
+
+// Importo gli stili di react-bootstrap
 import { Card, Container, Button, Row, Col } from "react-bootstrap";
 
 const Aside = () => {
+
+  // useState utilizzato per prendere tutti gli utenti dall'endpoint /profile/ tramite la "get"
   const [users, setUsers] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // useEffect utilizzato per montare la "get" in pagina una volta sola
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -31,11 +37,14 @@ const Aside = () => {
     fetchUsers(); // Chiamata alla funzione per recuperare gli utenti
   }, []);
 
+  // Blocco if per il Loading degli utenti 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-  const displayedUsers = showAll ? users : users.slice(0, 5);
+// Se il flag `showAll` è vero, assegna tutti gli utenti (array `users`) a `displayedUsers`.
+// Altrimenti, assegna solo i primi 5 utenti dall'array utilizzando il metodo `slice`.
+const displayedUsers = showAll ? users : users.slice(0, 5);
 
   return (
     <aside className="mt-5 pt-2">
@@ -99,7 +108,7 @@ const Aside = () => {
               position: "absolute",
               bottom: "10px",
               width: "100%",
-              paddingBottom: "10px", // Aggiungiamo un po' di spazio sotto il bottone
+              paddingBottom: "10px",
             }}
           >
             <Button

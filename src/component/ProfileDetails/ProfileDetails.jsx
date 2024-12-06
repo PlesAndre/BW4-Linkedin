@@ -1,9 +1,16 @@
 import React from "react";
+
+// Importo gli stili di react-bootstrap
 import { Button, Card } from "react-bootstrap";
+
+// Importo il componente utilizzato
 import "./ProfileDetails.css";
+
+// Importo il Link dal router-dom, su App.js dichiarato le Routes
 import { Link } from "react-router-dom";
 
 export default function ProfileDetails({ data }) {
+  // Come parametro viene passata la props "data" dal componente ProfilePage per passargli i dati del JSON in pagina
   return (
     <>
       <Card className="shadow profile-card mt-5">
