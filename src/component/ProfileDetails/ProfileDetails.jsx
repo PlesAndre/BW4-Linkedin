@@ -38,6 +38,7 @@ export default function ProfileDetails({ data }) {
               Informazioni di contatto
             </Link>
           </Card.Text>
+          <Card.Text>{data.bio}</Card.Text>
           <Button className="mb-2">Disponibile per</Button>
           <Button variant="outline-primary" className="mb-2 mx-2">
             Aggiungi sezione del profilo

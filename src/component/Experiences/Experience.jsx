@@ -189,7 +189,7 @@ export default function Experience({ experience, id, apiToken, setReload }) {
           <Col className="mt-2">
             <h4>{experience.company}</h4>
             <p>
-              {formatDate(experience.startDate)} -
+              {formatDate(experience.startDate)} -{" "}
               {formatDate(experience.endDate)}
             </p>
             <p>{experience.area}</p>
