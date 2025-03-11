@@ -17,7 +17,7 @@ Quando l'utente clicca su uno dei membri del team, viene visualizzata la pagina 
 ## Installazione e utilizzo
 Clona il repository:
 
-git clone https://github.com/tuo-username/linkedin-clone.git
+git clone https://github.com/PlesAndre/BW4-Linkedin.git
 Vai nella cartella del progetto e installa le dipendenze:
 - npm install
   
