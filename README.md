@@ -7,7 +7,7 @@ Il progetto è stato realizzato con React e include le funzionalità essenziali 
 
 Quando l'utente clicca su uno dei membri del team, viene visualizzata la pagina personale di quel membro con un'immagine di copertura, un'immagine del profilo, una sezione "disponibile per..." e una lista delle esperienze lavorative. La parte più complessa del progetto è stata la gestione delle esperienze lavorative, poiché dovevamo associare correttamente ogni esperienza al profilo selezionato, evitando che le esperienze si replicassero sugli altri utenti.
 
-Limitazioni:
+### Limitazioni:
 Il progetto si basava su un token di autenticazione fornito da Epicode tramite la registrazione su StriveSchool, che permetteva di registrare e visualizzare le esperienze lavorative degli utenti attraverso un server esterno. Tuttavia, a causa della scadenza del token e della disattivazione del server, le funzionalità relative alla gestione delle esperienze lavorative non sono più operative. Pertanto, il sito funziona solo parzialmente, con la possibilità di visualizzare la pagina principale e i profili senza la gestione dinamica delle esperienze lavorative.
 
 ## Tecnologie utilizzate
